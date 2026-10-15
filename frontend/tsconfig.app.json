@@ -1,0 +1,31 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    // `types: ["vite/client"]` supplies ImportMeta.env. `vitest/globals` supplies the
+    // describe/it/expect globals used by the specs; it is safe to list even when the
+    // specs import them explicitly.
+    "types": ["vite/client", "vitest/globals"],
+
+    // Must mirror `resolve.alias` in vite.config.ts. Without this, TypeScript cannot
+    // resolve the `@/...` specifiers that Vite resolves at bundle time, and every
+    // aliased import fails with TS2307. Keeping the two in step is what makes
+    // `vue-tsc -b` and `vite build` agree.
+    //
+    // `baseUrl` is deliberately omitted: TypeScript 6 deprecates it (TS5101).
+    // `paths` entries resolve relative to this file, so "./src/*" is correct as written.
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
+    "allowArbitraryExtensions": true,
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "env.d.ts"]
+}

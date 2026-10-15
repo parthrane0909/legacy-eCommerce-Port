@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="ShopHub">
+  <rect width="32" height="32" rx="8" fill="#141414" />
+  <text
+    x="16"
+    y="21"
+    font-family="Archivo, Inter, system-ui, sans-serif"
+    font-size="13"
+    font-weight="800"
+    letter-spacing="1"
+    text-anchor="middle"
+    fill="#ffffff"
+  >SH</text>
+  <circle cx="24" cy="9" r="3.5" fill="#ff5a1f" />
+</svg>

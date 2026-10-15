@@ -1,0 +1,33 @@
+# Local development stack for ShopHub.
+#
+# Brings up SQL Server for the modern application only. The legacy database
+# is not mounted, referenced, or modified.
+#
+#   cp .env.example .env      # edit SHOPHUB_DB_PASSWORD
+#   docker compose -f docker-compose.dev.yml up -d
+#
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: shophub-mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_SA_PASSWORD: "${SHOPHUB_DB_PASSWORD:?set SHOPHUB_DB_PASSWORD in .env}"
+    ports:
+      # Host 1434 keeps the legacy `mssql` container on 1433 untouched.
+      - "1434:1433"
+    volumes:
+      - shophub-mssql-data:/var/opt/mssql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  shophub-mssql-data:
